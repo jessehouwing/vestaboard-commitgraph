@@ -1,0 +1,172 @@
+{
+  "id": "vestaboard_commitgraph",
+  "name": "GitHub Commit Graph",
+  "version": "1.0.0",
+  "description": "Shows a GitHub user's contribution graph across the whole board: one tile per day, the most recent day bottom-right.",
+  "author": "jessehouwing",
+  "icon": "git-commit-horizontal",
+  "category": "art",
+  "repository": "https://github.com/jessehouwing/vestaboard-commitgraph",
+  "documentation": "README.md",
+  "fiestaboard_version": ">=2.10.0",
+
+  "min_refresh_seconds": 300,
+
+  "settings_schema": {
+    "type": "object",
+    "properties": {
+      "username": {
+        "type": "string",
+        "title": "GitHub Username",
+        "description": "The GitHub user whose contribution graph is shown."
+      },
+      "github_token": {
+        "type": "string",
+        "title": "GitHub Token (optional)",
+        "description": "Personal access token used to query the GraphQL contribution calendar (no scopes needed for public contributions; include private contributions via your profile settings). Without a token the public REST events API is used, which only covers the last 90 days.",
+        "ui:widget": "password"
+      },
+      "active_color": {
+        "type": "string",
+        "title": "Active Day Color",
+        "description": "Tile color for days with activity.",
+        "enum": ["green", "red", "orange", "yellow", "blue", "violet", "white", "black"],
+        "default": "green"
+      },
+      "empty_color": {
+        "type": "string",
+        "title": "Inactive Day Color",
+        "description": "Tile color for days without activity. 'blank' leaves the board's default flap.",
+        "enum": ["blank", "black", "white", "red", "orange", "yellow", "green", "blue", "violet"],
+        "default": "blank"
+      },
+      "refresh_seconds": {
+        "type": "integer",
+        "title": "Refresh Interval (seconds)",
+        "description": "How often to fetch the contribution graph from GitHub.",
+        "default": 3600,
+        "minimum": 300,
+        "maximum": 86400
+      }
+    },
+    "required": ["username"]
+  },
+
+  "variables": {
+    "groups": {
+      "display": { "label": "Display" },
+      "stats": { "label": "Statistics" }
+    },
+    "simple": {
+      "commit_graph": {
+        "description": "Full-board contribution graph: one line of colour tiles per board row, one tile per day, sized to the board being rendered on (use alone)",
+        "type": "string",
+        "max_length": 2903,
+        "group": "display",
+        "example": "(graph, one line per board row)"
+      },
+      "username": {
+        "description": "GitHub username shown",
+        "type": "string",
+        "max_length": 39,
+        "group": "stats",
+        "example": "octocat"
+      },
+      "days": {
+        "description": "Number of days shown (45 on a Note, 132 on a Flagship)",
+        "type": "number",
+        "max_length": 4,
+        "group": "stats",
+        "example": "132"
+      },
+      "active_days": {
+        "description": "Number of shown days with at least one contribution",
+        "type": "number",
+        "max_length": 4,
+        "group": "stats",
+        "example": "87"
+      },
+      "contributions": {
+        "description": "Total contributions in the shown days",
+        "type": "number",
+        "max_length": 6,
+        "group": "stats",
+        "example": "412"
+      },
+      "streak": {
+        "description": "Consecutive days with contributions, ending today",
+        "type": "number",
+        "max_length": 4,
+        "group": "stats",
+        "example": "12"
+      }
+    }
+  },
+
+  "max_lengths": {
+    "username": 39,
+    "days": 4,
+    "active_days": 4,
+    "contributions": 6,
+    "streak": 4
+  },
+
+  "demo": {
+    "flagship": {
+      "name": "GitHub Commit Graph",
+      "template": [
+        "{{vestaboard_commitgraph.commit_graph}}",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "line_metadata": [
+        { "alignment": "left", "wrap": true },
+        { "alignment": "left", "wrap": false },
+        { "alignment": "left", "wrap": false },
+        { "alignment": "left", "wrap": false },
+        { "alignment": "left", "wrap": false },
+        { "alignment": "left", "wrap": false }
+      ]
+    },
+    "note": {
+      "name": "GitHub Commit Graph (Note)",
+      "template": [
+        "{{vestaboard_commitgraph.commit_graph}}",
+        "",
+        ""
+      ],
+      "line_metadata": [
+        { "alignment": "left", "wrap": true },
+        { "alignment": "left", "wrap": false },
+        { "alignment": "left", "wrap": false }
+      ]
+    }
+  },
+
+  "teaser": "{66}{66} {66}{66}{66} COMMITS",
+
+  "previews": [
+    {
+      "device_type": "flagship",
+      "rows": [
+        "{66}{66}  {66}{66}{66}{66}   {66}{66}  {66}{66}{66}{66} {66}{66}",
+        "{66}{66} {66}{66}{66}{66}{66}{66}{66}{66}{66} {66}{66}{66}{66}{66}  {66}{66}",
+        "{66}   {66}{66}  {66}{66} {66} {66}{66}{66}{66} {66}{66}{66}{66}",
+        "{66}{66}  {66}  {66}{66} {66} {66} {66}{66}{66}{66} {66}{66} ",
+        "{66}{66}{66}{66}{66}  {66}{66}  {66}{66}{66} {66}{66}{66}{66} {66}{66}",
+        "{66}{66} {66}{66}{66}{66}{66}{66}   {66}    {66}{66}{66}{66}{66}"
+      ]
+    },
+    {
+      "device_type": "note",
+      "rows": [
+        "{66}   {66} {66}{66}{66}{66}{66} {66}{66}{66}",
+        "  {66}{66}{66} {66}{66}{66}{66}{66} {66} {66}",
+        "  {66} {66} {66}  {66}{66}{66}{66} {66}"
+      ]
+    }
+  ]
+}
