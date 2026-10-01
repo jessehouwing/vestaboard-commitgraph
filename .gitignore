@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+.coverage
+.coverage.*
+.coveragerc
+htmlcov/
+.pytest_cache/
+
+# CI plugin layout (see .github/workflows/ci.yml)
+/fiestaboard-core/
+/plugins/
+/vestaboard_commitgraph
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
